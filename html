@@ -1,0 +1,792 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Figma UI</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: white;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background: #000;
+            padding: 25px 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        nav a,
+        .sidebar-playlists a {
+            display: block;
+            color: #b3b3b3;
+            text-decoration: none;
+            padding: 12px 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav a:hover,
+        .sidebar-playlists a:hover,
+        nav .active {
+            color: white;
+        }
+
+        nav i,
+        .sidebar-playlists i {
+            width: 25px;
+        }
+
+        .sidebar-playlists {
+            margin-top: 25px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            color: #777;
+            font-size: 11px;
+            line-height: 2;
+        }
+
+        .language {
+            margin-top: 12px;
+            padding: 7px 15px;
+            border: 1px solid #777;
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            background: linear-gradient(#202020, #121212);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* TOP BAR */
+        .topbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background: rgba(0,0,0,0.35);
+        }
+
+        .arrows button {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: #000;
+            color: white;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .account {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .account a {
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .account button {
+            border: none;
+            background: white;
+            color: black;
+            padding: 12px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* HOME */
+        .home {
+            padding: 25px 30px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .section-heading h2 {
+            font-size: 24px;
+        }
+
+        .section-heading span {
+            color: #b3b3b3;
+            font-size: 14px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: #181818;
+            padding: 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            background: #282828;
+            transform: translateY(-3px);
+        }
+
+        .card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #a7a7a7;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .second-heading {
+            margin-top: 40px;
+        }
+
+        /* PLAYLIST */
+        .playlist-page {
+            padding: 40px 30px;
+            display: none;
+        }
+
+        .playlist-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .playlist-cover {
+            width: 230px;
+            height: 230px;
+            object-fit: cover;
+            box-shadow: 0 5px 25px #000;
+        }
+
+        .playlist-type {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .playlist-info h1 {
+            font-size: 60px;
+            margin: 12px 0;
+        }
+
+        .playlist-info p {
+            color: #b3b3b3;
+            margin-bottom: 15px;
+        }
+
+        .playlist-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .playlist-meta i {
+            color: white;
+            font-size: 20px;
+        }
+
+        /* CONTROLS */
+        .playlist-controls {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin: 35px 0 20px;
+        }
+
+        .play-button {
+            width: 55px;
+            height: 55px;
+            border: none;
+            border-radius: 50%;
+            background: #1ed760;
+            color: black;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .control-button {
+            background: transparent;
+            border: none;
+            color: #b3b3b3;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        /* SONGS */
+        .songs {
+            width: 100%;
+        }
+
+        .song-header,
+        .song {
+            display: grid;
+            grid-template-columns: 50px 2fr 1fr 1fr 80px;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+        }
+
+        .song-header {
+            color: #aaa;
+            border-bottom: 1px solid #333;
+            font-size: 13px;
+        }
+
+        .song {
+            border-radius: 5px;
+            color: #b3b3b3;
+        }
+
+        .song:hover {
+            background: #282828;
+            color: white;
+        }
+
+        .song-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .song-title b {
+            display: block;
+            color: white;
+            font-size: 14px;
+        }
+
+        .song-title small {
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .song-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #555, #111);
+        }
+
+        .song-img.blue {
+            background: linear-gradient(135deg, #153d70, #8dc6ff);
+        }
+
+        .song-img.yellow {
+            background: linear-gradient(135deg, #e3b341, #222);
+        }
+
+        .song-img.purple {
+            background: linear-gradient(135deg, #762e92, #222);
+        }
+
+        .song-img.pink {
+            background: linear-gradient(135deg, #db5b8c, #222);
+        }
+
+        .song-img.orange {
+            background: linear-gradient(135deg, #e47d32, #222);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .playlist-info h1 {
+                font-size: 40px;
+            }
+        }
+
+        @media(max-width: 650px) {
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .logo span,
+            .sidebar a:not(:has(i)),
+            .sidebar-bottom,
+            nav a,
+            .sidebar-playlists a {
+                font-size: 0;
+            }
+
+            .logo i {
+                font-size: 25px;
+            }
+
+            nav i,
+            .sidebar-playlists i {
+                font-size: 18px;
+            }
+
+            .main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .playlist-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .playlist-cover {
+                width: 180px;
+                height: 180px;
+            }
+
+            .playlist-info h1 {
+                font-size: 35px;
+            }
+
+            .song-header {
+                display: none;
+            }
+
+            .song {
+                grid-template-columns: 30px 1fr 60px;
+            }
+
+            .song > span:nth-child(3),
+            .song > span:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fa-brands fa-spotify"></i>
+            <span>Spotify</span>
+        </div>
+
+        <nav>
+            <a class="active" onclick="showHome()">
+                <i class="fa-solid fa-house"></i>
+                Home
+            </a>
+
+            <a>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+            </a>
+
+            <a>
+                <i class="fa-solid fa-book-open"></i>
+                Your Library
+            </a>
+        </nav>
+
+        <div class="sidebar-playlists">
+            <a>
+                <i class="fa-solid fa-plus"></i>
+                Create Playlist
+            </a>
+
+            <a>
+                <i class="fa-solid fa-heart"></i>
+                Liked Songs
+            </a>
+
+            <a onclick="showPlaylist()">
+                <i class="fa-solid fa-music"></i>
+                Deep Focus
+            </a>
+        </div>
+
+        <div class="sidebar-bottom">
+            Legal &nbsp; Privacy Center<br>
+            Privacy Policy<br>
+            Cookies &nbsp; About &nbsp; Ads<br>
+
+            <button class="language">
+                <i class="fa-solid fa-globe"></i>
+                English
+            </button>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div class="arrows">
+                <button onclick="history.back()">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <button>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="account">
+                <a>Sign up</a>
+                <button>Log in</button>
+            </div>
+
+        </header>
+
+
+        <!-- HOME -->
+        <section class="home" id="home">
+
+            <div class="section-heading">
+                <h2>Focus</h2>
+                <span>Show all</span>
+            </div>
+
+            <div class="cards">
+
+                <div class="card" onclick="showPlaylist()">
+                    <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=500">
+                    <h3>Peaceful Piano</h3>
+                    <p>Peaceful piano to help you slow down, breathe, and focus.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500">
+                    <h3>Deep Focus</h3>
+                    <p>Keep calm and focus with ambient and post-rock music.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=500">
+                    <h3>Instrumental Study</h3>
+                    <p>Focus with soft study music in the background.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500">
+                    <h3>Focus Flow</h3>
+                    <p>Up-tempo instrumental hip hop beats.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=500">
+                    <h3>Beats to think to</h3>
+                    <p>Focus with deep techno and tech house.</p>
+                </div>
+
+            </div>
+
+
+            <div class="section-heading second-heading">
+                <h2>Spotify Playlists</h2>
+                <span>Show all</span>
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500">
+                    <h3>Today's Top Hits</h3>
+                    <p>Harry Styles is on top of the Hottest 50.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500">
+                    <h3>RapCaviar</h3>
+                    <p>New music from today's biggest artists.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500">
+                    <h3>All Out 2010s</h3>
+                    <p>The biggest songs of the 2010s.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5f79?w=500">
+                    <h3>Rock Classics</h3>
+                    <p>Rock legends and epic songs.</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500">
+                    <h3>Chill Hits</h3>
+                    <p>Kick back to the best chill hits.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PLAYLIST PAGE -->
+        <section class="playlist-page" id="playlist">
+
+            <div class="playlist-header">
+
+                <img
+                    src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=700"
+                    class="playlist-cover">
+
+                <div class="playlist-info">
+
+                    <span class="playlist-type">Playlist</span>
+
+                    <h1>Deep Focus</h1>
+
+                    <p>
+                        Keep calm and focus with ambient and post-rock music.
+                    </p>
+
+                    <div class="playlist-meta">
+                        <i class="fa-brands fa-spotify"></i>
+                        <b>Spotify</b>
+                        <span>•</span>
+                        <span>3,940,865 likes</span>
+                        <span>•</span>
+                        <span>252 songs, about 10 hr</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTROLS -->
+            <div class="playlist-controls">
+
+                <button class="play-button" onclick="playMusic()">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+                <button class="control-button">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <button class="control-button">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </button>
+
+            </div>
+
+
+            <!-- SONG TABLE -->
+            <div class="songs">
+
+                <div class="song-header">
+                    <span>#</span>
+                    <span>Title</span>
+                    <span>Album</span>
+                    <span>Date added</span>
+                    <span>Duration</span>
+                </div>
+
+                <div class="song">
+                    <span>1</span>
+
+                    <div class="song-title">
+                        <div class="song-img"></div>
+                        <div>
+                            <b>So Far So Good</b>
+                            <small>Sun Of They</small>
+                        </div>
+                    </div>
+
+                    <span>Silent Hills</span>
+                    <span>1 week ago</span>
+                    <span>2:31</span>
+                </div>
+
+
+                <div class="song">
+                    <span>2</span>
+
+                    <div class="song-title">
+                        <div class="song-img blue"></div>
+                        <div>
+                            <b>Apricity</b>
+                            <small>Imala Zir</small>
+                        </div>
+                    </div>
+
+                    <span>Apricity</span>
+                    <span>1 week ago</span>
+                    <span>2:38</span>
+                </div>
+
+
+                <div class="song">
+                    <span>3</span>
+
+                    <div class="song-title">
+                        <div class="song-img yellow"></div>
+                        <div>
+                            <b>Solatium</b>
+                            <small>Imber Sun</small>
+                        </div>
+                    </div>
+
+                    <span>Solatium</span>
+                    <span>1 week ago</span>
+                    <span>2:06</span>
+                </div>
+
+
+                <div class="song">
+                    <span>4</span>
+
+                    <div class="song-title">
+                        <div class="song-img purple"></div>
+                        <div>
+                            <b>Efflorescence</b>
+                            <small>Far & Beyond</small>
+                        </div>
+                    </div>
+
+                    <span>Efflorescence</span>
+                    <span>1 week ago</span>
+                    <span>2:23</span>
+                </div>
+
+
+                <div class="song">
+                    <span>5</span>
+
+                    <div class="song-title">
+                        <div class="song-img pink"></div>
+                        <div>
+                            <b>Gather My Thoughts</b>
+                            <small>Josef Briem</small>
+                        </div>
+                    </div>
+
+                    <span>Gather My Thoughts</span>
+                    <span>1 week ago</span>
+                    <span>3:03</span>
+                </div>
+
+
+                <div class="song">
+                    <span>6</span>
+
+                    <div class="song-title">
+                        <div class="song-img orange"></div>
+                        <div>
+                            <b>Fresh Paint</b>
+                            <small>Modern Ambient</small>
+                        </div>
+                    </div>
+
+                    <span>Fresh Paint</span>
+                    <span>1 week ago</span>
+                    <span>2:41</span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    function showPlaylist() {
+        document.getElementById("home").style.display = "none";
+        document.getElementById("playlist").style.display = "block";
+        window.scrollTo(0, 0);
+    }
+
+    function showHome() {
+        document.getElementById("playlist").style.display = "none";
+        document.getElementById("home").style.display = "block";
+        window.scrollTo(0, 0);
+    }
+
+    function playMusic() {
+        alert("Music is playing!");
+    }
+
+</script>
+
+</body>
+</html>
+```
